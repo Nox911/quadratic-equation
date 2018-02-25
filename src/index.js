@@ -1,73 +1,39 @@
-class Sorter {
-  constructor() {
-    this.array=[];
-    this.compareFunc=0;
+module.exports = function solveEquation(equation) {
+  let result=[];
+  let a=0,
+      b=0,
+      c=0,
+      bTemp=[],
+      cTemp=[],
+      D=0,
+      x1=0,
+      x2=0;
+  let temp=equation.split('*');
+  a=temp[0];
+  bTemp=temp[1].split('x^2');
+  cTemp=c=c[1]=temp[2].split('x');
+  b=bTemp[1].split(' ').join('');
+  c=cTemp[1].split(' ').join('');
+  b=b-0;
+  c=c-0;
+  D=b*b-4*a*c;
+  if (D<0) {
+      return result;
   }
-
-  add(element) {
-    this.array.push(element);
+  else if (D===0) {
+      x1=-b/2*a;
+      return result.push(x1);
   }
-
-  at(index) {
-    return this.array[index];
-  }
-
-  get length() {
-    return this.array.length;
-  }
-
-  toArray() {
-    return this.array;
-  }
-
-  sort(indices) {
-
-    // Sorting function
-    function merge (left,right) {
-      let result = [];
-
-      while (left.length>0&&right.length>0) {
-        if(left[0]<right[0]) {
-          result.push(left.shift());
-          }
-        else {
-          result.push(right.shift());
-        }
+  else {
+    x1=Math.round((-b+Math.sqrt(D))/(2*a));
+    x2=Math.round((-b-Math.sqrt(D))/(2*a));
+      if (x1<x2) {
+        result.push(x1,x2);
       }
-      return result.concat(left).concat(right);
-    }
-
-    function sorting(arr) {
-      if (arr.length<2) {
-        return arr;
+      else {
+        result.push(x2,x1);
       }
-      let mid = Math.floor(arr.length/2);
-      let left = arr.slice(0,mid);
-      let right = arr.slice(mid)
-      return merge(sorting(left), sorting(right));
-    }
-    
-    // main function
-    let arrTemp = [];
-    indices=sorting(indices);
-    let indicesLen=indices.length;
-    for (let i=0;i<indicesLen;i++) {
-      arrTemp.push(this.at(indices[i]));
-    }
-    if (this.compareFunc) {
-      arrTemp.sort(this.compareFunc);
-    }
-    else {
-      arrTemp=sorting(arrTemp);
-    }
-    for (let i=0;i<indicesLen;i++) {
-      this.array[indices[i]]=arrTemp[i];
-    }
   }
+  return result;
 
-  setComparator(compareFunction) {  
-    this.compareFunc=compareFunction;
-  }
 }
-
-module.exports = Sorter;
